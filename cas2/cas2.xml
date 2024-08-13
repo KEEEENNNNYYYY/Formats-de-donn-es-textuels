@@ -1,0 +1,27 @@
+<school>
+    <name>HEI</name>
+    <creation>2021</creation>
+    <domain>IT</domain>
+    <nbStudents>200</nbStudents>
+
+    <student>
+         <student>
+            <name>Rakoto</name>
+            <ref>STD001</ref>
+            <groupe>
+                <name>A1</name>
+                <year>2023</year>
+                <level>L2</level>
+            </groupe>
+         </student>
+         <student>
+            <name>Rabe</name>
+            <ref>STD002</ref>
+            <groupe>
+                <name>A1</name>
+                <year>2023</year>
+                <level>L3</level>
+            </grpupe>
+        </student>
+    </student>
+</school>
