@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
-  title: STD23XXX - TD1
+  title: STD23006 - TD1
   version: 1.0.0
 servers:
-  - url: https://localhost.STD23XXX.com
+  - url: https://localhost.STD23006.com
 paths:
   /customers:
     get:
