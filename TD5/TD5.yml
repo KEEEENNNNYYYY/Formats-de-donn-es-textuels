@@ -1,0 +1,312 @@
+openapi: 3.0.3
+info:
+  title: STD23006 - TD2
+  version: '1.0.2'
+servers:
+  - url: https://localhost.std23006.com
+paths:
+  /customers:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: List of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  age:
+                    type: integer
+        required: true
+      responses:
+        200:
+          description: List of created customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        200:
+          description: List of updated customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                age:
+                  type: integer
+              required:
+                - id
+      responses:
+        200:
+          description: Customer updated with partial data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    delete:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerIdentifier'
+        required: true
+      responses:
+        200:
+          description: List of deleted customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+
+  /meal:
+    get:
+      parameters:
+        - in: query
+          name: price
+          schema:
+            type: number
+          required: true
+        - in: query
+          name: priceSize
+          schema:
+            type: number
+          required: true
+      responses:
+        200:
+          description: List of meals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  price:
+                    type: number
+        required: true
+      responses:
+        200:
+          description: List of created meals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meal'
+        required: true
+      responses:
+        200:
+          description: List of updated meals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+    delete:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MealIdentifier'
+        required: true
+      responses:
+        200:
+          description: List of deleted meals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+
+  /customers/{customerId}/orders:
+    get:
+      summary: List all orders for a specific customer
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: orderDate
+          schema:
+            type: string
+            format: date-time
+      responses:
+        200:
+          description: List of orders for the customer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      summary: Create a new order for a specific customer
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      responses:
+        201:
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    put:
+      summary: Update an existing order for a specific customer
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      responses:
+        200:
+          description: Order updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+
+    CustomerIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+
+    Meal:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+
+    MealIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+
+    Order:
+      type: object
+      properties:
+        reference:
+          type: string
+        meals:
+          type: array
+          items:
+            type: object
+            properties:
+              mealId:
+                type: string
+                description: ID of the meal
+              quantity:
+                type: integer
+                description: Quantity of the meal
+        orderDatetime:
+          type: string
+          format: date-time
